@@ -35,7 +35,7 @@ add(Obj, [Field|Fields], Val) ->
                 {ok, NewVal} -> set_(Obj, Field, NewVal);
                 Other -> Other
             end;
-        notfound -> {error, notfound, Obj, Field};
+        notfound -> {error, {notfound, Obj, Field}};
         Other -> Other
     end.
 
@@ -43,7 +43,7 @@ remove(Obj, [Field]) ->
     case get_(Obj, Field) of
         {ok, _FieldObj} ->
             del_(Obj, Field);
-        notfound -> {error, notfound, Obj, Field};
+        notfound -> {error, {notfound, Obj, Field}};
         Other -> Other
     end;
 
@@ -54,7 +54,7 @@ remove(Obj, [Field|Fields]) ->
                 {ok, NewVal} -> set_(Obj, Field, NewVal);
                 Other -> Other
             end;
-        notfound -> {error, notfound, Obj, Field};
+        notfound -> {error, {notfound, Obj, Field}};
         Other -> Other
     end.
 
@@ -62,7 +62,7 @@ replace(Obj, [Field], Val) ->
     case get_(Obj, Field) of
         {ok, _FieldObj} ->
             set_(Obj, Field, Val);
-        notfound -> {error, notfound, Obj, Field};
+        notfound -> {error, {notfound, Obj, Field}};
         Other -> Other
     end;
 
@@ -73,7 +73,7 @@ replace(Obj, [Field|Fields], Val) ->
                 {ok, NewVal} -> set_(Obj, Field, NewVal);
                 Other -> Other
             end;
-        notfound -> {error, notfound, Obj, Field};
+        notfound -> {error, {notfound, Obj, Field}};
         Other -> Other
     end.
 
@@ -113,7 +113,7 @@ fetch(Obj, [Field|Fields]) ->
     case get_(Obj, Field) of
         {ok, FieldObj} ->
             fetch(FieldObj, Fields);
-        notfound -> {error, notfound, Obj, Field};
+        notfound -> {error, {notfound, Obj, Field}};
         Other -> Other
     end.
 
@@ -130,7 +130,7 @@ add_(Obj, Field, Value) when is_list(Obj) andalso is_integer(Field) ->
     {ok, L1 ++ [Value] ++ L2};
 
 add_(Obj, Field, Value) ->
-    {error, cantset, Obj, Field, Value}.
+    {error, {cantset, Obj, Field, Value}}.
 
 set_(Obj, Field, Value) when is_map(Obj) ->
     {ok, maps:put(Field, Value, Obj)};
@@ -145,7 +145,7 @@ set_(Obj, Field, Value) when is_list(Obj) andalso is_integer(Field) ->
 
 
 set_(Obj, Field, Value) ->
-    {error, cantset, Obj, Field, Value}.
+    {error, {cantset, Obj, Field, Value}}.
 
 del_(Obj, Field) when is_map(Obj) ->
     {ok, maps:remove(Field, Obj)};
@@ -163,7 +163,7 @@ del_(Obj, Field) when is_list(Obj) andalso is_integer(Field) ->
     {ok, Result};
 
 del_(Obj, Field) ->
-    {error, cantremove, Obj, Field}.
+    {error, {cantremove, Obj, Field}}.
 
 get_(Obj, Field) when is_map(Obj) ->
     case maps:find(Field, Obj) of
@@ -172,7 +172,7 @@ get_(Obj, Field) when is_map(Obj) ->
     end;
 
 get_(Obj, <<"-">>=Index) when is_list(Obj) ->
-    {error, invalidindex, Obj, Index};
+    {error, {invalidindex, Obj, Index}};
 
 get_(Obj, Field) when is_list(Obj) andalso is_integer(Field) ->
     InsideList = Field >= 0 andalso Field  < length(Obj),
