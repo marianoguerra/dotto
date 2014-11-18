@@ -18,6 +18,13 @@ do_apply([], Obj, []) ->
 do_apply([], Obj, Errors) ->
     {error, Obj, Errors};
 
+do_apply([{test, _Path, _Val}=Op|Ops], Obj, Errors) ->
+    case dotto:apply(Op, Obj) of
+        {ok, true} -> do_apply(Ops, Obj, Errors);
+        {ok, false} -> do_apply(Ops, Obj, [{error, {testfail, Op}}|Errors]);
+        Other -> do_apply(Ops, Obj, [Other|Errors])
+    end;
+
 do_apply([Op|Ops], Obj, Errors) ->
     case dotto:apply(Op, Obj) of
         {ok, NewObj} -> do_apply(Ops, NewObj, Errors);
