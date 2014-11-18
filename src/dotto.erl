@@ -9,8 +9,8 @@ apply(Ops, Obj) when is_list(Ops) ->
 apply({add, Path, Val}, Obj) -> add(Obj, Path, Val);
 apply({remove, Path}, Obj) -> remove(Obj, Path);
 apply({replace, Path, Val}, Obj) -> replace(Obj, Path, Val);
-apply({move, Path, Val}, Obj) -> move(Obj, Path, Val);
-apply({copy, Path, Val}, Obj) -> copy(Obj, Path, Val);
+apply({move, FromPath, ToPath}, Obj) -> move(Obj, FromPath, ToPath);
+apply({copy, FromPath, ToPath}, Obj) -> copy(Obj, FromPath, ToPath);
 apply({test, Path, Val}, Obj) -> test(Obj, Path, Val).
 
 do_apply([], Obj, []) ->
