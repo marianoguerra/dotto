@@ -1,5 +1,5 @@
 -module(dotto).
--export([parse_path/1, apply/2, add/3, remove/2, replace/3, move/3, copy/3,
+-export([apply/2, add/3, remove/2, replace/3, move/3, copy/3,
          test/3,
          fetch/2]).
 
@@ -23,10 +23,6 @@ do_apply([Op|Ops], Obj, Errors) ->
         {ok, NewObj} -> do_apply(Ops, NewObj, Errors);
         {error, Error} -> do_apply(Ops, Obj, [Error|Errors])
     end.
-
-parse_path(PathStr) ->
-    {ok, tl(binary:split(PathStr, <<"/">>, [global]))}.
-
 
 add(Obj, [Field], Val) ->
     add_(Obj, Field, Val);

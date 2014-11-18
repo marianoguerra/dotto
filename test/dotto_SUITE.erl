@@ -2,8 +2,7 @@
 -compile(export_all).
 
 all() ->
-    [parse_empty_path, parse_slash, parse_one_item, parse_two_items,
-     add_to_empty_list, add_to_empty_map, add_start_list, add_middle_list,
+    [add_to_empty_list, add_to_empty_map, add_start_list, add_middle_list,
      override_map_value, add_level_1_map, add_level_1_existing_map,
      add_level_2_list, add_level_2_not_list, add_level_2_not_map,
 
@@ -13,18 +12,6 @@ all() ->
      replace_level_2_not_list, replace_level_2_not_map,
     
      remove_empty_list, remove_item_list, remove_item_map].
-
-parse_empty_path(_) ->
-    {ok, []} = dotto:parse_path(<<"">>).
-
-parse_slash(_) ->
-    {ok, [<<>>]} = dotto:parse_path(<<"/">>).
-
-parse_one_item(_) ->
-    {ok, [<<"a">>]} = dotto:parse_path(<<"/a">>).
-
-parse_two_items(_) ->
-    {ok, [<<"a">>, <<"b">>]} = dotto:parse_path(<<"/a/b">>).
 
 add_to_empty_list(_) ->
     {ok, [42]} = dotto:add([], [<<"-">>], 42).
