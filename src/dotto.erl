@@ -186,9 +186,3 @@ get_(Obj, Field) when is_list(Obj) andalso is_integer(Field) ->
 
 get_(_Obj, _Field) ->
     notfound.
-
-has(Obj, Field) ->
-    case get_(Obj, Field) of
-        {ok, _Val} -> true;
-        _ -> false
-    end.
