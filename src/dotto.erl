@@ -31,6 +31,9 @@ do_apply([Op|Ops], Obj, Errors) ->
         {error, Error} -> do_apply(Ops, Obj, [Error|Errors])
     end.
 
+% this will only match if you try to replace the whole document with an empty path
+add(_Obj, [], Val) ->
+    {ok, Val};
 add(Obj, [Field], Val) ->
     add_(Obj, Field, Val);
 
