@@ -51,6 +51,12 @@ extra methods::
 
     fetch(Obj, Path): {ok, Value} if found, {error, Reason} otherwise
 
+caveats
+-------
+
+* for the moment integer keys on maps are added as strings, this is to match js
+  behavior, in the future it will be an option
+
 License
 -------
 
