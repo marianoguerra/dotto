@@ -65,6 +65,9 @@ remove(Obj, [Field|Fields]) ->
         Other -> Other
     end.
 
+% this will only match if you try to replace the whole document with an empty path
+replace(_Obj, [], Val) ->
+    {ok, Val};
 replace(Obj, [Field], Val) ->
     case get_(Obj, Field) of
         {ok, _FieldObj} ->
