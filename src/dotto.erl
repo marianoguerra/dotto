@@ -145,7 +145,7 @@ add_(Obj, <<"-">>, Value) when is_list(Obj) ->
 
 add_(Obj, Field, Value) when is_list(Obj) andalso is_integer(Field) ->
     {L1, L2} = lists:split(Field, Obj),
-    {ok, L1 ++ [Value] ++ L2};
+    {ok, L1 ++ [Value|L2]};
 
 add_(Obj, Field, Value) ->
     {error, {cantset, Obj, Field, Value}}.
