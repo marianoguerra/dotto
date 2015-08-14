@@ -1,7 +1,7 @@
 -module(dotto).
 -export([apply/2, add/3, remove/2, replace/3, move/3, copy/3,
          test/3,
-         fetch/2]).
+         fetch/2, fetch/3]).
 
 apply(Ops, Obj) when is_list(Ops) ->
     do_apply(Ops, Obj, []);
@@ -130,6 +130,12 @@ fetch(Obj, [Field|Fields]) ->
         Other -> Other
     end.
 
+fetch(Obj, Path, Default) ->
+    case fetch(Obj, Path) of
+        {ok, _} = Result -> Result;
+        {error, _} -> {ok, Default}
+    end.
+
 % private api
 
 
@@ -157,6 +163,7 @@ set_(Obj, Field, Value) when is_list(Obj) andalso is_integer(Field) ->
     Result = case lists:split(Field, Obj) of
                  {[], [_|T]} -> [Value] ++ T;
                  {H1, [_|T]} -> H1 ++ [Value] ++ T;
+                 % TODO: should droplast(H1)? I think not since it's 0 based
                  {H1, []} -> H1 ++ [Value]
              end,
     {ok, Result};

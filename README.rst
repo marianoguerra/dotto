@@ -50,6 +50,7 @@ this are the direct implementations of the RFC methods::
 extra methods::
 
     fetch(Obj, Path): {ok, Value} if found, {error, Reason} otherwise
+    fetch(Obj, Path, Default): {ok, Value} if found, {ok, Default} otherwise
 
 caveats
 -------

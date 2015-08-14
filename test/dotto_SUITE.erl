@@ -11,6 +11,8 @@ all() ->
      replace_level_1_map, replace_level_1_inexistent_map, replace_level_2_list,
      replace_level_2_not_list, replace_level_2_not_map,
     
+     fetch_default,
+
      remove_empty_list, remove_item_list, remove_item_map].
 
 add_to_empty_list(_) ->
@@ -105,3 +107,17 @@ remove_item_map(_) ->
     {error, {notfound, #{}, a}} = dotto:remove(#{}, [a, b]),
     {error, {notfound, #{c := 2}, b}} = dotto:remove(#{a => #{c => 2}}, [a, b]).
 
+% fetch
+
+fetch_default(_) ->
+    Obj1 = #{a => 1},
+    SubObj1 = #{c => 2},
+    Obj2 = #{a => 1, b => SubObj1},
+
+    {ok, 1} = dotto:fetch(Obj1, [a]),
+    {error, {notfound, Obj1, b}} = dotto:fetch(Obj1, [b]),
+    {ok, 2} = dotto:fetch(Obj1, [b], 2),
+
+    {ok, 2} = dotto:fetch(Obj2, [b, c]),
+    {error, {notfound, SubObj1, d}} = dotto:fetch(Obj2, [b, d]),
+    {ok, 3} = dotto:fetch(Obj2, [b, d], 3).
